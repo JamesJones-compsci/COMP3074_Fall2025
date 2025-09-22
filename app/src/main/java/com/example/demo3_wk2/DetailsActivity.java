@@ -2,20 +2,31 @@ package com.example.demo3_wk2;
 
 import static com.example.demo3_wk2.MainActivity.TAG;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private MyReceiver receiver = new MyReceiver();
 
     @Override
     public void onClick(View v){
@@ -35,10 +46,57 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         if (id == R.id.button2){
             // Phone call
-            // Todo: Complete this next session
-            return;
+   //         intent = new Intent(
+   //                 Intent.ACTION_CALL,
+   //                 Uri.parse("tel:5555555555")
+   //         );
+   //         startActivity(intent);
+   //
+            // return;
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+
+                    != PackageManager.PERMISSION_GRANTED
+            ){
+                // request for the permission
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        1
+                );
+
+
+            } else{
+                // permission already granted
+                callDummyNumber();
+            }
         }
 
+    }
+
+    private void callDummyNumber() {
+        Intent intent = new Intent(
+                Intent.ACTION_CALL,
+                 Uri.parse("tel:555555555")
+        );
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults
+    ){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                callDummyNumber();
+            } else{
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -61,8 +119,24 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         findViewById(R.id.button1).setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
+
+        registerMyReceiver();
     }
 
+    private void registerMyReceiver(){
+        // register the my receiver
+        IntentFilter filter = new IntentFilter(MyReceiver.ACTION_CUSTOM_BROADCAST);
+        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED);
+
+
+        Button button = findViewById(R.id.message1);
+        button.setOnClickListener(v ->{
+            Intent intent = new Intent(MyReceiver.ACTION_CUSTOM_BROADCAST)
+                    .setPackage(getPackageName());
+            intent.putExtra("msg", "Hello message broadcasted");
+            sendBroadcast(intent);
+        });
+    }
 
 
     @Override
