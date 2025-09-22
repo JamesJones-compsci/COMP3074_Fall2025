@@ -70,6 +70,19 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 // permission already granted
                 callDummyNumber();
             }
+            return;
+        }
+
+        if (id == R.id.start){
+            intent = new Intent(this, MyService.class);
+            startService(intent);
+           return;
+        }
+
+        if (id == R.id.stop){
+            intent = new Intent(this, MyService.class);
+            stopService(intent);
+            return;
         }
 
     }
@@ -120,6 +133,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.button1).setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
 
+        findViewById(R.id.start).setOnClickListener(this);
+        findViewById(R.id.stop).setOnClickListener(this);
+
+
         registerMyReceiver();
     }
 
@@ -129,7 +146,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED);
 
 
-        Button button = findViewById(R.id.message1);
+        Button button = findViewById(R.id.message);
         button.setOnClickListener(v ->{
             Intent intent = new Intent(MyReceiver.ACTION_CUSTOM_BROADCAST)
                     .setPackage(getPackageName());
@@ -173,5 +190,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     protected void onDestroy(){
         super.onDestroy();
         Log.d(TAG, "onDestroy: Activity 2");
+
+        // unregister the receiver
+        unregisterReceiver(receiver);
     }
 }

@@ -33,14 +33,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Open Yahoo" />
+            android:text="@string/open_yahoo" />
 
         <Button
             android:id="@+id/button2"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Phone Call" />
+            android:text="@string/phone_call" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,19 +54,30 @@
         app:layout_constraintEnd_toEndOf="parent">
 
     <Button
-        android:id="@+id/message1"
+        android:id="@+id/start"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Broadcast message"/>
+        android:text="Start service"/>
 
     <Button
-        android:id="@+id/message2"
+        android:id="@+id/stop"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Run service"/>
+        android:text="Stop service"/>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Broadcast message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnContainer2"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

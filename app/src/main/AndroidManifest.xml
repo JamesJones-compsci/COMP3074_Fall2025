@@ -28,6 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- register the service -->
+        <service android:name=".MyService"/>
+
+        <!-- not needed as we dynamically registered the receiver -->
+        <receiver android:name=".MyReceiver"/>
+
     </application>
+
 
 </manifest>
