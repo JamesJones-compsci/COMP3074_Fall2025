@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        style="@style/MyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello World!" />
+
+    <TextView
+        style="@style/MyText.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello World!" />
+
+    <Button
+        style="@style/MyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button 1"/>
+
+    <Button
+        style="@style/MyButton.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button 2"/>
+
+    <Button
+        style="@style/MyButton.Medium.V2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button 2 V2"/>
+
+    <Button
+        style="@style/MyButton.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button 3"/>
+
+
+    <EditText
+        android:id="@+id/et1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="Write Your Name"/>
+
+    <Button
+        style="@style/MyButton.Large"
+        android:id="@+id/btn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="grabMyName"
+        android:text="Grab My Name"/>
+
+</LinearLayout>
