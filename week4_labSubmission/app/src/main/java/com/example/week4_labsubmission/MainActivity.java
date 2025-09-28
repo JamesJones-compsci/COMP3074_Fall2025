@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -29,16 +30,24 @@ public class MainActivity extends AppCompatActivity {
 
         Button showNameButton = findViewById(R.id.showNameButton);
 
+        // Store the name in a variable
+        String myName = "James Jones";
+
         // Set click listener for button
         showNameButton.setOnClickListener(v -> {
-                    // Display AlertDialog with my name
-                    new AlertDialog.Builder(this)
-                            .setTitle("My Name")        // Dialog title
-                            .setMessage("James Jones")  // Dialog message
-                            .setPositiveButton("OK", null) // OK button closes dialog
-                            .show();                     // Display the dialog
-
-                });
+            // Display AlertDialog with my name
+            new AlertDialog.Builder(this)
+                    .setTitle("My Name")        // Dialog title
+                    .setMessage(myName)  // Dialog message
+                    // First button: OK closes the dialog
+                    .setPositiveButton("OK", null)
+                    // Second button: Show Toast
+                    .setNeutralButton("Show Toast", (dialog, which) -> {
+                        // This code runs when "Show Toast" is clicked
+                        Toast.makeText(this, "Success! " +  myName, Toast.LENGTH_SHORT).show();
+                    })
+                    .show();                     // Display the dialog
+        });
 
             // -------------------------------
             // 2️⃣ ListView + ArrayAdapter
@@ -46,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             ListView listView = findViewById(R.id.myListView);
 
             // Array of strings to display
-            String[] items = {"Apple", "Banana", "Cherry", "Date", "Elderberry"};
+            String[] items = {"Katana", "Ninja Star", "Nunchaku", "Bo Staff", "Kunai"};
 
             // ArrayAdapter: connects array of strings to ListView
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
