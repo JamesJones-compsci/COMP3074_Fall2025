@@ -5,7 +5,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,45 +25,32 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Show button name
-
         Button showNameButton = findViewById(R.id.showNameButton);
 
-        // Store the name in a variable
         String myName = "James Jones";
 
-        // Set click listener for button
         showNameButton.setOnClickListener(v -> {
-            // Display AlertDialog with my name
+
             new AlertDialog.Builder(this)
-                    .setTitle("My Name")        // Dialog title
-                    .setMessage(myName)  // Dialog message
-                    // First button: OK closes the dialog
+                    .setTitle("My Name")
+                    .setMessage(myName)
                     .setPositiveButton("OK", null)
-                    // Second button: Show Toast
                     .setNeutralButton("Show Toast", (dialog, which) -> {
-                        // This code runs when "Show Toast" is clicked
                         Toast.makeText(this, "Success! " +  myName, Toast.LENGTH_SHORT).show();
                     })
-                    .show();                     // Display the dialog
+                    .show();
         });
 
-            // -------------------------------
-            // 2️⃣ ListView + ArrayAdapter
-            // -------------------------------
             ListView listView = findViewById(R.id.myListView);
 
-            // Array of strings to display
             String[] items = {"Katana", "Ninja Star", "Nunchaku", "Bo Staff", "Kunai"};
 
-            // ArrayAdapter: connects array of strings to ListView
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    this,                       // Context
-                    android.R.layout.simple_list_item_1, // Built-in layout for each item
-                    items                        // Data array
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    items
             );
 
-            // Set adapter for ListView
             listView.setAdapter(adapter);
     }
 }
