@@ -12,19 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class MainFragment extends Fragment {
+public class MainFragment2 extends Fragment {
 
-    private static final String TAG = "MainFragment";
+    private static final String TAG = "MainFragment2";
 
-    public MainFragment() { }
+    private TextView textView;
 
-    public void displayText(String text){
-        View view = getView();
-        if (view != null){
-            TextView tv = view.findViewById(R.id.textFragment);
-            tv.setText(text);
-        }
-    }
+    public MainFragment2() { }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -45,13 +39,15 @@ public class MainFragment extends Fragment {
         Log.d(TAG, "onCreateView: ");
         // TODO return the layout for the fragment
         // return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_main2, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: ");
+
+        textView = view.findViewById(R.id.text2);
     }
 
     @Override
@@ -97,6 +93,8 @@ public class MainFragment extends Fragment {
     }
 
 
-
+    public void updateUi(String text){
+        textView.setText(text);
+    }
 
 }

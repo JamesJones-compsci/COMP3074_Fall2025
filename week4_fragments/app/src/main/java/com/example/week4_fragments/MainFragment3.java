@@ -6,30 +6,42 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class MainFragment extends Fragment {
+interface OnUpdatePressedListener {
+    void onUpdatePressed();
+    void sendText(String text);
+}
 
-    private static final String TAG = "MainFragment";
+public class MainFragment3 extends Fragment {
 
-    public MainFragment() { }
+    private static final String TAG = "MainFragment3";
 
-    public void displayText(String text){
-        View view = getView();
-        if (view != null){
-            TextView tv = view.findViewById(R.id.textFragment);
-            tv.setText(text);
-        }
-    }
+    private OnUpdatePressedListener listener;
+    private TextView textView;
+
+    private EditText label;
+
+    public MainFragment3() { }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
+
+        // This is the place when the fragment is attached to its activity
+        if (context instanceof OnUpdatePressedListener){
+            listener = (OnUpdatePressedListener) context;
+        } else {
+            throw new ClassCastException(context.toString()
+                    + "must implement the OnUpdatePressedListener interface");
+        }
     }
 
 
@@ -45,13 +57,21 @@ public class MainFragment extends Fragment {
         Log.d(TAG, "onCreateView: ");
         // TODO return the layout for the fragment
         // return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_main3, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: ");
+
+        textView = view.findViewById(R.id.text3);
+        label = view.findViewById(R.id.label);
+        Button updateBtn = view.findViewById(R.id.updatebtn);
+        updateBtn.setOnClickListener((v) -> {
+            listener.onUpdatePressed();
+            listener.sendText(label.getText().toString());
+        });
     }
 
     @Override
@@ -97,6 +117,9 @@ public class MainFragment extends Fragment {
     }
 
 
+    public void updateUi(String text){
+        textView.setText(text);
+    }
 
 
 }
