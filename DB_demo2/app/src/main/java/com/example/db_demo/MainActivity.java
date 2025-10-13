@@ -1,12 +1,15 @@
 package com.example.db_demo;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView = findViewById(R.id.list);
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
-            // TODO show a dialog to delete and update the selected name
+            showUpdateOrDeleteNameDialog(names.get(position));
             return true;
         });
 
@@ -63,15 +66,89 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.showBtn).setOnClickListener(this);
     }
 
+    private void showUpdateOrDeleteNameDialog(Name name){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("Edit name: " + name.name)
+                .setMessage("Do you want to edit or delete " + name.name)
+                .setPositiveButton("Edit", (d, i) -> {
+                    String newName = nameText.getText().toString().trim();
+                    if (!newName.isBlank()){
+                        if (dbHelper.updateName(name.id, newName)) {
+                            Toast.makeText(this, "The name is updated to " + newName, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "The name is not updated", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "The input text is empty", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Delete", (d, i) -> {
+                    if (dbHelper.deleteName(name.id)){
+                        showNames();
+                    }
+                })
+                .setNeutralButton("Dismiss", null)
+                .create()
+                .show();
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.addBtn) {
-            // TODO add names
+            addName();
         } else if (id == R.id.showBtn){
-            // TODO show names
+            showNames();
         }
     }
+
+
+    private void addName() {
+        String name = nameText.getText().toString().trim();
+        if (name.isBlank()) {
+            // Show error on the edit text
+            nameText.setError("Name field is mandatory");
+            nameText.requestFocus();
+            return;
+        }
+
+        if (dbHelper.addName(name)){
+            Toast.makeText(this, "Name is added", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Name not added", Toast.LENGTH_SHORT).show();
+        }
+
+        nameText.setText("");
+    }
+
+    private void showNames() {
+        names.clear();
+
+        Cursor cursor = dbHelper.getAllNames();
+        if (cursor.moveToFirst()){
+            // We are reading from the beginning
+            do {
+
+                names.add(
+                        new Name(
+                                cursor.getInt(0),
+                                cursor.getString(1)
+                        )
+                );
+
+            } while (cursor.moveToNext());
+            // Close the cursor after the transaction
+            cursor.close();
+
+            // Notify the adapter that the dataset has changed
+            adapter.notifyDataSetChanged();
+
+        } else {
+            Toast.makeText(this, "The fetch process failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
     private class Name {
@@ -95,3 +172,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
+
+// View -> tool Windows -> App Inspection
