@@ -7,18 +7,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:gravity="top"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/btnAddBook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Add New Book" />
 
     <ListView
         android:id="@+id/listViewBooks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="1dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:dividerHeight="1dp"
+        android:paddingBottom="8dp"/>
 
 </LinearLayout>
